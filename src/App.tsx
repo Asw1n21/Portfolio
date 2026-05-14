@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState} from "react";
 
 interface Color {
   r: number;
@@ -246,17 +246,17 @@ const SKILLS = [
   { name: "React", icon: "⚛️", level: "Advanced" },
   { name: "Tailwind CSS", icon: "🎨", level: "Advanced" },
   { name: "JavaScript", icon: "🟡", level: "Advanced" },
-  { name: "TypeScript", icon: "🔷", level: "Intermediate" },
-  { name: "C#", icon: "💜", level: "Intermediate" },
   { name: ".NET", icon: "🌐", level: "Learning" },
   { name: "SQL", icon: "🗄️", level: "Intermediate" },
+  { name: "Entity Framework", icon: "🔗", level: "Intermediate" },
   { name: "Git", icon: "🔀", level: "Advanced" },
+  { name: "Postman", icon: "📬", level: "Intermediate" },
 ];
 
 const PROJECTS = [
-  { title: "Project One", stack: ["React", "Tailwind", ".NET"], desc: "A full-featured web app with seamless UX and robust backend.", gradient: "from-[#f8c4d8] via-[#ffe4e8] to-[#ffd6e7]" },
-  { title: "Project Two", stack: ["TypeScript", "SQL", "C#"], desc: "Data-driven dashboard with real-time updates and clean UI.", gradient: "from-[#e8d5f0] via-[#f8c4d8] to-[#fde8d8]" },
-  { title: "Project Three", stack: ["React", ".NET", "Git"], desc: "Modern web platform with authentication and API integration.", gradient: "from-[#fde8d8] via-[#ffe4e8] to-[#e8d5f0]" },
+  { title: "Hostel Management System", stack: ["React", "Tailwind", ".NET Web API"],github: "https://github.com/Asw1n21/HostelManagementSystem.git",desc: "A full-featured web app with seamless UX and robust backend.", gradient: "from-[#f8c4d8] via-[#ffe4e8] to-[#ffd6e7]" },
+  { title: "Expense Tracking App", stack: [".NET MAUI", "Mud Blazor", "JSON"], github:"https://github.com/Asw1n21/ExpenseTracking.git",desc: "Data-driven dashboard with real-time updates and clean UI.", gradient: "from-[#e8d5f0] via-[#f8c4d8] to-[#fde8d8]" },
+  { title: "Project Management", stack: ["ASP.NET Web Forms"],github: "https://github.com/Asw1n21/AdvanceDatabaseCoursework.git", desc: "Modern web platform with authentication and API integration.", gradient: "from-[#fde8d8] via-[#ffe4e8] to-[#e8d5f0]," },
 ];
 
 function App() {
@@ -372,7 +372,7 @@ function App() {
       cancelAnimationFrame(animId);
     };
   }, []);
-
+const [isMenuOpen, setIsMenuOpen] = useState (false);
   return (
     <div className="min-h-screen bg-[#fff8f3] text-[#4a3c35] font-light overflow-hidden">
 
@@ -386,7 +386,7 @@ function App() {
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-[#f5d4d8]">
         <div className="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
           <h1 className="text-lg tracking-[0.2em] font-semibold text-[#c06c84]">ASWIN GOLE</h1>
-          <div className="flex gap-8 text-xs uppercase tracking-widest font-medium">
+          <div className="hidden md:flex gap-8 text-xs uppercase tracking-widest font-medium">
             {["About", "Skills", "Projects", "Contact"].map((item) => (
               <a
                 key={item}
@@ -397,6 +397,46 @@ function App() {
                 <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#c06c84] transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
+            </div>
+            <button
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+      className="md:hidden w-8 h-8 flex items-center justify-center text-[#c06c84]"
+      aria-label="Toggle menu"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d={isMenuOpen 
+            ? "M6 18L18 6M6 6h12v12" 
+            : "M4 6h16M4 12h16M4 18h16"
+          }
+        />
+      </svg>
+    </button>
+  </div>
+
+  {/* Mobile Menu */}
+  <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden
+    ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+    <div className="px-6 py-8 bg-white/95 backdrop-blur-md border-t border-[#f5d4d8] flex flex-col gap-6 text-sm uppercase tracking-widest font-medium">
+      {["About", "Skills", "Projects", "Contact"].map((item) => (
+        <a
+          key={item}
+          href={`#${item.toLowerCase()}`}
+          onClick={() => setIsMenuOpen(false)}
+          className="text-[#4a3c35] hover:text-[#c06c84] transition-colors duration-300 py-1"
+        >
+          {item}
+        </a>
+      ))}
           </div>
         </div>
       </nav>
@@ -553,6 +593,17 @@ function App() {
                       </span>
                     ))}
                   </div>
+                  <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#c06c84] hover:text-[#9f4a6a] transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577 0-.285-.01-1.044-.015-2.049-3.338.729-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          View on GitHub
+        </a>
                 </div>
               </div>
             ))}
@@ -573,13 +624,17 @@ function App() {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="mailto:your.email@example.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=aswingole60@gmail.com"
+  target="_blank"
+  rel="noopener noreferrer"
               className="px-10 py-4 bg-[#c06c84] text-white rounded-full text-sm font-medium tracking-wide hover:bg-[#9f4a6a] hover:shadow-lg hover:shadow-[#c06c84]/30 hover:-translate-y-0.5 transition-all duration-300"
             >
               Send an Email
             </a>
             <a
-              href="#"
+              href="https://drive.google.com/file/d/1L2OX8F5Y7z6qQUEO3LaWWy8aykxirXj5/view?usp=sharing"
+  target="_blank"
+  rel="noopener noreferrer"
               className="px-10 py-4 bg-white border border-[#c06c84] text-[#c06c84] rounded-full text-sm font-medium tracking-wide hover:bg-[#fff0f4] hover:-translate-y-0.5 transition-all duration-300"
             >
               View Resume
